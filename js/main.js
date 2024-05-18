@@ -18,8 +18,8 @@ function init() {
 init();
 
 function nextSlide () {
-  if (!flag) return;
-  flag = !flag;
+  // if (!flag) return;
+  // flag = !flag;
   count++;
   breakPoint = document.querySelector('.breakpoint-next').offsetWidth;
 
@@ -30,8 +30,8 @@ function nextSlide () {
 }
 
 function prevSlide () {
-  if (!flag) return;
-  flag = !flag;
+  // if (!flag) return;
+  // flag = !flag;
   count--;
   breakPoint = document.querySelector('.breakpoint-next').offsetWidth;
   if (count < 0) {
@@ -46,28 +46,32 @@ document.querySelector('.next-button').addEventListener('click', nextSlide);
 document.querySelector('.prev-button').addEventListener('click', prevSlide)
 
 document.querySelector('.slide').addEventListener('touchstart', handleTouchStart, false);
-document.querySelector('.slide').addEventListener('touchmove', handleTouchMove, false);
+document.querySelector('.slide').addEventListener('touchend', handleTouchMove, false);
 
 function rollSlider () {
   sliderLine.style.transform = 'translate(-' + ((count*width) + (30*count)) + 'px)';
-  flag = true;
+  // flag = true;
 }
 
 function handleTouchStart (event) {
 const firtTouch = event.touches[0];
 x1 = firtTouch.clientX;
+console.log(x1)
 }
 
 function handleTouchMove (event) {
   if (!x1) {
     return false;
   }
-  let x2 = event.touches[0].clientX;
+  let x2 = event.changedTouches[0].clientX;
   let xDiff = x2 - x1;
-  if (xDiff < 0) {
+  if (xDiff > 0 ) {
     prevSlide();
-  } else {
+
+  } if (xDiff < 0) {
     nextSlide();
+
+
   }
   console.log(xDiff)
 }
