@@ -4,6 +4,7 @@ let count = 0;
 let width;
 let breakPoint;  
 let x1 = null;
+let flag = true;
 
 function init() {
   width = document.querySelector('.block-slide').offsetWidth;
@@ -17,6 +18,8 @@ function init() {
 init();
 
 function nextSlide () {
+  if (!flag) return;
+  flag = !flag;
   count++;
   breakPoint = document.querySelector('.breakpoint-next').offsetWidth;
 
@@ -27,6 +30,8 @@ function nextSlide () {
 }
 
 function prevSlide () {
+  if (!flag) return;
+  flag = !flag;
   count--;
   breakPoint = document.querySelector('.breakpoint-next').offsetWidth;
   if (count < 0) {
@@ -45,6 +50,7 @@ document.querySelector('.slide').addEventListener('touchmove', handleTouchMove, 
 
 function rollSlider () {
   sliderLine.style.transform = 'translate(-' + ((count*width) + (30*count)) + 'px)';
+  flag = true;
 }
 
 function handleTouchStart (event) {
@@ -58,7 +64,7 @@ function handleTouchMove (event) {
   }
   let x2 = event.touches[0].clientX;
   let xDiff = x2 - x1;
-  if (xDiff > 0) {
+  if (xDiff < 0) {
     prevSlide();
   } else {
     nextSlide();
